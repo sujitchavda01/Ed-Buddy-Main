@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const DemoSection = () => {
   const [timeLeft, setTimeLeft] = useState({
-    days: 7,
+    days: 8,
     hours: 12,
     minutes: 45,
     seconds: 30

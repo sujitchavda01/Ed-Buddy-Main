@@ -1,4 +1,4 @@
-
+import logo from "../assets/logo2.png";
 const Footer = () => {
   return (
     <footer className="bg-text-primary text-white py-16">
@@ -6,10 +6,11 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-br from-purple-primary to-purple-learn rounded-lg flex items-center justify-center">
+              <img src={logo} alt="Logo" className="h-15 sm:h-16 md:h-20 rounded-xl" />
+              {/* <div className="w-10 h-10 bg-gradient-to-br from-purple-primary to-purple-learn rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">E</span>
               </div>
-              <span className="text-2xl font-bold">Ed-Buddy</span>
+              <span className="text-2xl font-bold">Ed-Buddy</span> */}
             </div>
             <p className="text-white/70">
               Every Child's Learning Buddy - Making education fun, interactive, and personalized for every child.
@@ -48,7 +49,7 @@ const Footer = () => {
         
         <div className="border-t border-white/20 mt-12 pt-8 text-center">
           <p className="text-white/70">
-            © 2024 Ed-Buddy. All rights reserved. | Privacy Policy | Terms of Service
+            © 2025 Ed-Buddy. All rights reserved. | Privacy Policy | Terms of Service
           </p>
         </div>
       </div>

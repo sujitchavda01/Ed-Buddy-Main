@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import photo from "../assets/istockphoto-1005450652-612x612.jpg";
 
 const HeroSection = () => {
   return (
@@ -12,7 +13,7 @@ const HeroSection = () => {
               <h1 className="text-5xl lg:text-6xl font-bold text-text-primary leading-tight">
                 The best place to{" "}
                 <span className="text-purple-learn italic">learn</span> and{" "}
-                <span className="text-yellow-play italic relative">
+                <span className="text-yellow-play relative">
                   play
                   <svg className="absolute -bottom-2 left-0 w-full h-3" viewBox="0 0 200 12" fill="none">
                     <path d="M2 10c30-8 60-8 90 0s60 8 90 0" stroke="#FBBF24" strokeWidth="3" strokeLinecap="round"/>
@@ -45,7 +46,7 @@ const HeroSection = () => {
           <div className="relative">
             <div className="relative z-10">
               <img 
-                src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=600&h=600&fit=crop&crop=faces"
+                src={photo}
                 alt="Happy child learning"
                 className="rounded-full w-80 h-80 object-cover mx-auto shadow-2xl"
               />

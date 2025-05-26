@@ -49,7 +49,18 @@ const Footer = () => {
         
         <div className="border-t border-white/20 mt-12 pt-8 text-center">
           <p className="text-white/70">
-            © 2025 Ed-Buddy. All rights reserved. | Privacy Policy | Terms of Service
+            © 2025 Ed-Buddy. All rights reserved. | Privacy Policy | Terms of Service 
+            <br />
+            Design & Developed by
+            <a
+              href="https://www.linkedin.com/in/sujit-chavda/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-600  hover:text-blue-100 transition-colors duration-300"
+            >
+               &nbsp;Sujitkumar Chavda
+            </a>
+
           </p>
         </div>
       </div>

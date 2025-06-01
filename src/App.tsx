@@ -10,9 +10,10 @@ import { SpeedInsights } from "@vercel/speed-insights/vue"
 const queryClient = new QueryClient();
 
 const App = () => (
+  
   <QueryClientProvider client={queryClient}>
-    <SpeedInsights/>
     <TooltipProvider>
+      <SpeedInsights/>
       <Toaster />
       <Sonner/>
       <BrowserRouter>

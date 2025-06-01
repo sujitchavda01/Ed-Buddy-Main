@@ -1,28 +1,32 @@
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import { toast } from "sonner";
+import { toast } from "sonner"; // Used for user notifications on form submission
 
 const ContactSection = () => {
+  // Initial form state
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
     message: "",
     termsAccepted: false,
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Handles input changes and updates the corresponding form field
+  const handleInputChange = (field, value) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // Handles form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Ensure the user has accepted the terms
     if (!formData.termsAccepted) {
-      toast.error("Please accept the terms and conditions");
+      alert("Please accept the terms and conditions");
       return;
     }
 
     try {
+      // Send form data to Formspree
       const response = await fetch("https://formspree.io/f/xgvkjaap", {
         method: "POST",
         headers: {
@@ -31,132 +35,107 @@ const ContactSection = () => {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
-          phone: formData.phone,
           message: formData.message,
         }),
       });
 
+      // Handle successful response
       if (response.ok) {
         toast.success("Thank you for your message! We'll get back to you soon.");
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          message: "",
-          termsAccepted: false,
-        });
+        setFormData({ name: "", email: "", message: "", termsAccepted: false });
       } else {
         toast.error("Something went wrong. Please try again.");
       }
     } catch (error) {
       toast.error("Network error. Please try again later.");
     }
-  };
 
-  const handleInputChange = (field: string, value: string | boolean) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Fallback success message
+    alert("Thank you for your message! We'll get back to you soon.");
+    setFormData({ name: "", email: "", message: "", termsAccepted: false });
   };
 
   return (
-    <section id="contact" className="py-20 bg-white/50">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl lg:text-5xl font-bold text-text-primary mb-6">
-              Want to work with us?
-            </h2>
-            <p className="text-xl text-text-primary/70">
-              Let's discuss how Ed-Buddy can help your child's learning journey.
-            </p>
-          </div>
-
-          <div className="bg-white/80 rounded-2xl p-8 shadow-lg">
-            <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label htmlFor="name" className="block text-text-primary font-medium mb-2">
-                    Name *
-                  </label>
-                  <Input
-                    id="name"
-                    value={formData.name}
-                    onChange={(e) => handleInputChange("name", e.target.value)}
-                    placeholder="Your full name"
-                    required
-                    pattern="^[A-Za-z\s]{3,}$"
-                    title="Please enter at least 3 characters. Only alphabets and spaces allowed."
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-text-primary font-medium mb-2">
-                    Email *
-                  </label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange("email", e.target.value)}
-                    placeholder="your.email@example.com"
-                    required
-                    title="Please enter a valid email address."
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label htmlFor="phone" className="block text-text-primary font-medium mb-2">
-                  Phone
-                </label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => handleInputChange("phone", e.target.value)}
-                  placeholder="Your phone number"
-                  pattern="^\+?[0-9\s\-]{7,15}$"
-                  title="Please enter a valid phone number (7-15 digits, optional +, spaces, or dashes)."
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-text-primary font-medium mb-2">
-                  Message *
-                </label>
-                <Textarea
-                  id="message"
-                  value={formData.message}
-                  onChange={(e) => handleInputChange("message", e.target.value)}
-                  placeholder="Tell us about your needs and how we can help..."
-                  rows={5}
-                  required
-                  minLength={10}
-                  title="Please enter at least 10 characters."
-                />
-              </div>
-
-              <div className="flex items-start space-x-2">
-                <Checkbox
-                  id="terms"
-                  checked={formData.termsAccepted}
-                  onCheckedChange={(checked) => handleInputChange("termsAccepted", checked as boolean)}
-                  required
-                  aria-describedby="terms-desc"
-                />
-                <label htmlFor="terms" className="text-sm text-text-primary/70 leading-relaxed">
-                  I accept the terms and conditions and privacy policy. I consent to Ed-Buddy contacting me about their services.
-                </label>
-              </div>
-
-              <Button
-                type="submit"
-                className="w-full bg-purple-primary hover:bg-purple-primary/90 text-white py-3 rounded-full text-lg font-semibold"
-              >
-                Send Message
-              </Button>
-            </form>
-          </div>
+    <section id="contact" className="py-20 bg-white">
+      <div className="container mx-auto px-4 max-w-2xl">
+        {/* Header Section */}
+        <div className="text-left mb-12">
+          <p className="text-lg text-gray-700 font-medium mb-2">Connect</p>
+          <h2 className="text-5xl font-serif text-gray-800 mb-4">Get in Touch</h2>
+          <p className="text-lg text-gray-600">We'd love to hear from you!</p>
         </div>
+
+        {/* Contact Form */}
+        <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+          {/* Name Input */}
+          <div>
+            <label htmlFor="name" className="block text-gray-800 text-lg mb-2">
+              Name
+            </label>
+            <input
+              id="name"
+              type="text"
+              value={formData.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+              className="w-full p-3 border-none bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 text-gray-800"
+              required
+            />
+          </div>
+
+          {/* Email Input */}
+          <div>
+            <label htmlFor="email" className="block text-gray-800 text-lg mb-2">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => handleInputChange("email", e.target.value)}
+              className="w-full p-3 border-none bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 text-gray-800"
+              required
+            />
+          </div>
+
+          {/* Message Textarea */}
+          <div>
+            <label htmlFor="message" className="block text-gray-800 text-lg mb-2">
+              Message
+            </label>
+            <textarea
+              id="message"
+              value={formData.message}
+              onChange={(e) => handleInputChange("message", e.target.value)}
+              placeholder="Type your message..."
+              rows={6}
+              className="w-full p-3 border-none bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-300 text-gray-800 resize-y"
+              required
+            ></textarea>
+          </div>
+
+          {/* Terms and Conditions Checkbox */}
+          <div className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={formData.termsAccepted}
+              onChange={(e) => handleInputChange("termsAccepted", e.target.checked)}
+              className="form-checkbox h-4 w-4 text-purple-600 rounded"
+              required
+            />
+            <label htmlFor="terms" className="text-sm text-gray-700 select-none">
+              I accept the Terms
+            </label>
+          </div>
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="w-full bg-gradient-to-r from-purple-400 to-purple-600 hover:from-purple-500 hover:to-purple-700 text-white py-3 rounded-md text-lg font-normal transition-all duration-300 ease-in-out"
+          >
+            Submit
+          </button>
+        </form>
       </div>
     </section>
   );

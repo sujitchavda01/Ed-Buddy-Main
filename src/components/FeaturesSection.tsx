@@ -1,58 +1,90 @@
+import React from "react";
 
 const FeaturesSection = () => {
-  const features = [
-    {
-      title: "AI-Powered Personalized Learning",
-      description: "Tailored learning paths adapt to every student's pace and preferences, ensuring an experience that fits like a glove.",
-      icon: "🤖"
-    },
-    {
-      title: "Interactive, Animated Content",
-      description: "We don't just show concepts—we bring them to life with visual storytelling that captures young imaginations.",
-      icon: "🎨"
-    },
-    {
-      title: "Gamified Learning + Real Projects",
-      description: "Rewards, challenges, and real-world projects transform passive lessons into active, meaningful learning.",
-      icon: "🎮"
-    },
-    {
-      title: "Smart Real-Time Adjustments",
-      description: "Our AI continuously responds to each child's engagement level and progress, keeping learning effective and fun.",
-      icon: "⚡"
-    },
-    {
-      title: "Parental Dashboard & Safety Controls",
-      description: "Parents get full visibility, personalized insights, and the ability to guide their child's learning journey.",
-      icon: "👨‍👩‍👧‍👦"
-    },
-    {
-      title: "Strength-Based Learning Paths",
-      description: "We help children shine by focusing on their unique talents and reinforcing confidence through personalized content.",
-      icon: "🌟"
-    }
-  ];
-
   return (
-    <section id="features" className="py-20">
+    <section id="features" className="py-20" style={{ backgroundColor: '#F8F1FF' }}>
       <div className="container mx-auto px-4">
+        
+        {/* Section Heading */}
         <div className="text-center mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold text-text-primary mb-6">
-            Features That Make Learning Fun
+            Unlock Your Child's Learning Potential
           </h2>
           <p className="text-xl text-text-primary/70 max-w-3xl mx-auto">
-            Every feature is designed with your child's growth, safety, and joy in mind.
+            Our platform offers a comprehensive curriculum tailored for K-12 students. Experience
+            personalized learning paths that adapt to each child's unique needs.
           </p>
         </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div key={index} className="bg-white/80 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-purple-100">
-              <div className="text-4xl mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-bold text-text-primary mb-4">{feature.title}</h3>
-              <p className="text-text-primary/70 leading-relaxed">{feature.description}</p>
-            </div>
-          ))}
+
+        {/* Features Grid */}
+        <div className="grid md:grid-cols-3 gap-8 text-center">
+          
+          {/* Feature 1 */}
+          <div className="p-4">
+            <div className="text-4xl mb-4">🤖</div>
+            <h3 className="text-xl font-semibold text-text-primary mb-2">
+              AI-Powered Personalized Learning
+            </h3>
+            <p className="text-text-primary/70 leading-relaxed">
+              Tailored learning paths adjust to each student's speed and choices for a great match.
+            </p>
+          </div>
+
+          {/* Feature 2 */}
+          <div className="p-4">
+            <div className="text-4xl mb-4">🎨</div>
+            <h3 className="text-xl font-semibold text-text-primary mb-2">
+              Interactive, Animated Content
+            </h3>
+            <p className="text-text-primary/70 leading-relaxed">
+              We don't just share ideas—we bring them to life with visuals that capture kids' imaginations.
+            </p>
+          </div>
+
+          {/* Feature 3 */}
+          <div className="p-4">
+            <div className="text-4xl mb-4">🎮</div>
+            <h3 className="text-xl font-semibold text-text-primary mb-2">
+              Gamified Learning + Real Projects
+            </h3>
+            <p className="text-text-primary/70 leading-relaxed">
+              Rewards, challenges, and hands-on projects change boring lessons into fun and useful learning.
+            </p>
+          </div>
+
+          {/* Feature 4 */}
+          <div className="p-4">
+            <div className="text-4xl mb-4">⚡</div>
+            <h3 className="text-xl font-semibold text-text-primary mb-2">
+              Smart Real-Time Adjustments
+            </h3>
+            <p className="text-text-primary/70 leading-relaxed">
+              Our AI keeps track of how each child is doing and how engaged they are for optimal learning.
+            </p>
+          </div>
+
+          {/* Feature 5 */}
+          <div className="p-4">
+            <div className="text-4xl mb-4">👨‍👩‍👧‍👦</div>
+            <h3 className="text-xl font-semibold text-text-primary mb-2">
+              Parental Dashboard & Safety Controls
+            </h3>
+            <p className="text-text-primary/70 leading-relaxed">
+              Parents get full visibility, personalized insights, and control over their child's learning journey.
+            </p>
+          </div>
+
+          {/* Feature 6 */}
+          <div className="p-4">
+            <div className="text-4xl mb-4">🌟</div>
+            <h3 className="text-xl font-semibold text-text-primary mb-2">
+              Strength-Based Learning Paths
+            </h3>
+            <p className="text-text-primary/70 leading-relaxed">
+              We help children shine by focusing on their unique talents and reinforcing confidence.
+            </p>
+          </div>
+
         </div>
       </div>
     </section>

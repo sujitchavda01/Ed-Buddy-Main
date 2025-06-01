@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button";
-import logo from "../assets/logo.png";
-import { ArrowUpRight, X } from "lucide-react";
-import React,{ useState } from "react";
-import { toast } from "sonner";
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button"; // Shadcn UI Button component
+import { ArrowUpRight, Menu as MenuIcon, X } from "lucide-react"; // Icons used for menu and close
+import { toast } from "sonner"; // Toast notification
+import logo from "../assets/logo.png"; // Replace with your actual logo path
 
 const Header = () => {
   const [showModal, setShowModal] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -16,177 +16,161 @@ const Header = () => {
     phone: ""
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handles changes in form input fields
+  const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+  // Handles form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const scriptURL = "https://script.google.com/macros/s/AKfycbwrbOZY2lOkYnzA7X-8btt6-yqRtp_tI7oo_1YIsHpz-kZAXOBccHxz3l9y06EC5kjj/exec";
+    const form = new FormData();
 
-  const scriptURL = "https://script.google.com/macros/s/AKfycbwrbOZY2lOkYnzA7X-8btt6-yqRtp_tI7oo_1YIsHpz-kZAXOBccHxz3l9y06EC5kjj/exec";
+    // Append form fields
+    form.append("firstName", formData.firstName);
+    form.append("fathersName", formData.fathersName);
+    form.append("lastName", formData.lastName);
+    form.append("email", formData.email);
+    form.append("phone", formData.phone);
 
-  const form = new FormData();
-  form.append("firstName", formData.firstName);
-  form.append("fathersName", formData.fathersName);
-  form.append("lastName", formData.lastName);
-  form.append("email", formData.email);
-  form.append("phone", formData.phone);
+    try {
+      await fetch(scriptURL, {
+        method: "POST",
+        mode: "no-cors", // Required for Google Apps Script
+        body: form,
+      });
 
-  try {
-    const response = await fetch(scriptURL, {
-      method: "POST",
-      mode: "no-cors", // optional, but suppresses error (won't read response!)
-      body: form,
-    });
+      toast.success(
+        <div className="text-lg text-green-600 font-semibold">
+          🎉 Thank you! Your registration was completed successfully.
+        </div>
+      );
 
-    // alert("Form submitted successfully!");
-    toast.success(
-      <div className="text-lg text-green-600 font-semibold">
-         🎉 Thank you! Your registration was completed successfully.
-      </div>
-    );
-    setFormData({ firstName: "", fathersName: "", lastName: "", email: "", phone: "" });
-    setShowModal(false);
-  } catch (error) {
-    // alert("Network error: " + error.message);
-    toast.error(
-      <div className="text-lg text-red-600 font-semibold">
-        ⚠️ An error occurred while submitting. Please check your connection and try again.
-      </div>
-    );
-
-  }
+      // Reset form and close modal
+      setFormData({ firstName: "", fathersName: "", lastName: "", email: "", phone: "" });
+      setShowModal(false);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error(
+        <div className="text-lg text-red-600 font-semibold">
+          ⚠️ An error occurred. Please check your connection and try again.
+        </div>
+      );
+    }
   };
 
-
+  // Navigation links for header
+  const navLinks = [
+    { href: "#home", label: "Home Page" },
+    { href: "#about", label: "About Us" },
+    { href: "#features", label: "Our Features" },
+  ];
 
   return (
     <>
-      <header className="bg-white/80 backdrop-blur-sm border-b border-purple-100 sticky top-0 z-50">
-  <div className="container mx-auto px-4 py-4">
-    <div className="flex items-center justify-between">
-      {/* Logo */}
-      <div className="flex items-center space-x-2">
-        <img src={logo} alt="Logo" className="h-10 sm:h-12 md:h-16" />
-      </div>
+      {/* Header Navigation */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
 
-      {/* Mobile Menu Button */}
-      <div className="md:hidden">
-        <button
-          aria-label="Toggle Menu"
-          onClick={() => setMobileMenuOpen((prev) => !prev)}
-          className="text-text-primary focus:outline-none focus:ring-2 focus:ring-purple-primary rounded"
-        >
-          {/* Simple Hamburger Icon */}
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-      </div>
+            {/* Logo */}
+            <div className="flex items-center space-x-2">
+              <img src={logo} alt="Logo" className="h-12 sm:h-14 md:h-20" />
+            </div>
 
-      {/* Desktop Nav + Button */}
-      <div className="hidden md:flex items-center space-x-4">
-        <nav className="flex items-center space-x-8">
-          <a
-            href="#home"
-            className="text-text-primary hover:text-purple-primary transition-colors font-medium"
-          >
-            Home
-          </a>
-          <a
-            href="#about"
-            className="text-text-primary hover:text-purple-primary transition-colors font-medium"
-          >
-            About Us
-          </a>
-          <a
-            href="#features"
-            className="text-text-primary hover:text-purple-primary transition-colors font-medium"
-          >
-            Features
-          </a>
-          <a
-            href="#contact"
-            className="text-text-primary hover:text-purple-primary transition-colors font-medium"
-          >
-            Contact
-          </a>
-        </nav>
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+              <nav className="flex items-center space-x-6 lg:space-x-8">
+                {navLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="text-gray-600 hover:text-purple-600 transition-colors font-medium text-base"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </nav>
+              <Button
+                variant="outline"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2 rounded-lg font-medium text-base"
+                onClick={() => console.log("Demo clicked")}
+              >
+                Demo
+              </Button>
+              <Button
+                className="bg-purple-600 hover:bg-purple-700 text-white px-5 py-2 rounded-lg font-medium text-base"
+                onClick={() => setShowModal(true)}
+              >
+                Sign Up
+              </Button>
+            </div>
 
-        <Button
-          className="bg-purple-primary hover:bg-purple-primary/90 text-white px-6 py-2 rounded-full font-medium flex items-center"
-          onClick={() => setShowModal(true)}
-        >
-          Get Started
-          <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-        </Button>
-      </div>
-    </div>
+            {/* Mobile Menu Toggle */}
+            <div className="md:hidden">
+              <button
+                aria-label="Toggle Menu"
+                onClick={() => setMobileMenuOpen((prev) => !prev)}
+                className="text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 rounded-md p-1"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
 
-    {/* Mobile Nav Menu */}
-    {mobileMenuOpen && (
-      <nav className="mt-4 flex flex-col space-y-4 md:hidden text-center">
-        <a
-          href="#home"
-          className="block text-text-primary hover:text-purple-primary transition-colors font-medium"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Home
-        </a>
-        <a
-          href="#about"
-          className="block text-text-primary hover:text-purple-primary transition-colors font-medium"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          About Us
-        </a>
-        <a
-          href="#features"
-          className="block text-text-primary hover:text-purple-primary transition-colors font-medium"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Features
-        </a>
-        <a
-          href="#contact"
-          className="block text-text-primary hover:text-purple-primary transition-colors font-medium"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Contact
-        </a>
-
-        <Button
-          className="bg-purple-primary hover:bg-purple-primary/90 text-white px-6 py-2 rounded-full font-medium mx-auto w-full max-w-xs"
-          onClick={() => {
-            setShowModal(true);
-            setMobileMenuOpen(false);
-          }}
-        >
-          Get Started
-          <ArrowUpRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-        </Button>
-      </nav>
-    )}
-  </div>
-</header>
-
+          {/* Mobile Navigation Menu */}
+          {mobileMenuOpen && (
+            <nav className="mt-4 flex flex-col space-y-3 md:hidden pb-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="block text-gray-700 hover:text-purple-600 transition-colors font-medium py-2 text-center text-base rounded-md hover:bg-purple-50"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Button
+                variant="outline"
+                className="bg-gray-100 hover:bg-gray-200 text-gray-800 w-full py-2.5 rounded-lg font-medium text-base mt-2"
+                onClick={() => {
+                  console.log("Demo clicked mobile");
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Demo
+              </Button>
+              <Button
+                className="bg-purple-600 hover:bg-purple-700 text-white w-full py-2.5 rounded-lg font-medium text-base"
+                onClick={() => {
+                  setShowModal(true);
+                  setMobileMenuOpen(false);
+                }}
+              >
+                Sign Up
+              </Button>
+            </nav>
+          )}
+        </div>
+      </header>
 
       {/* Modal Form */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center">
-          <div className="bg-white rounded-xl p-8 max-w-md w-full shadow-lg relative">
-            <button className="absolute top-4 right-4 text-gray-500 hover:text-gray-800" onClick={() => setShowModal(false)}>
-              <X className="w-5 h-5" />
+        <div className="fixed inset-0 z-[60] bg-black bg-opacity-60 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative transform transition-all scale-100 opacity-100">
+            <button
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 text-gray-400 hover:text-gray-600 transition-colors"
+              onClick={() => setShowModal(false)}
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
-            <h2 className="text-2xl font-semibold mb-6 text-center text-purple-primary">Get Started</h2>
+            <h2 className="text-2xl sm:text-3xl font-semibold mb-6 text-center text-purple-600">
+              Get Started
+            </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* First Name */}
               <input
                 type="text"
                 name="firstName"
@@ -196,10 +180,8 @@ const Header = () => {
                 required
                 pattern="[A-Za-z]{2,}"
                 title="First name must contain at least 2 letters and only alphabets."
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-shadow"
               />
-
-              {/* Father's Name */}
               <input
                 type="text"
                 name="fathersName"
@@ -209,10 +191,8 @@ const Header = () => {
                 required
                 pattern="[A-Za-z ]{2,}"
                 title="Father's name must contain at least 2 letters and only alphabets."
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-shadow"
               />
-
-              {/* Last Name */}
               <input
                 type="text"
                 name="lastName"
@@ -222,10 +202,8 @@ const Header = () => {
                 required
                 pattern="[A-Za-z]{2,}"
                 title="Last name must contain at least 2 letters and only alphabets."
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-shadow"
               />
-
-              {/* Email Address */}
               <input
                 type="email"
                 name="email"
@@ -234,10 +212,8 @@ const Header = () => {
                 placeholder="Email Address"
                 required
                 title="Please enter a valid email address."
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-shadow"
               />
-
-              {/* Mobile Number */}
               <input
                 type="tel"
                 name="phone"
@@ -247,11 +223,9 @@ const Header = () => {
                 required
                 pattern="[6-9]{1}[0-9]{9}"
                 title="Enter a valid 10-digit Indian mobile number starting with 6-9."
-                className="w-full p-3 border rounded-lg"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-shadow"
               />
-
-              {/* Submit Button */}
-              <Button type="submit" className="w-full bg-purple-primary text-white py-3 rounded-lg">
+              <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg text-base font-medium transition-colors">
                 Submit
               </Button>
             </form>

@@ -24,7 +24,7 @@ const Header = () => {
   // Handles form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const scriptURL = "https://script.google.com/macros/s/AKfycbwrbOZY2lOkYnzA7X-8btt6-yqRtp_tI7oo_1YIsHpz-kZAXOBccHxz3l9y06EC5kjj/exec";
+    const scriptURL = "";
     const form = new FormData();
 
     // Append form fields
